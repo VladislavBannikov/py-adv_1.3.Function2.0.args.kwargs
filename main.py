@@ -1,8 +1,10 @@
 from pprint import pprint
 import os
 from phonebook import PhoneBook
+from time_logger import logger_decorator_factory
 
 
+@logger_decorator_factory("adv_print.log")
 def adv_print(*args, **kwargs):
     """ Advanced print
     :param string to print
@@ -41,7 +43,8 @@ q - for exit
 '''
 cmd_list = ["p", "s", "a", "q", "d", "f"]
 
-if __name__ == "__main__":
+@logger_decorator_factory("app.log")
+def run_app():
     book = PhoneBook('personal book')
 
     # populate the book with test data
@@ -59,7 +62,7 @@ if __name__ == "__main__":
         cmd = input("Выберите действие:\n").lower()
         if cmd in cmd_list:
             if cmd == 'q':
-                exit(0)
+                break
             elif cmd == 'p':
                 book.print_contacts()
             elif cmd == 's':
@@ -91,5 +94,7 @@ if __name__ == "__main__":
             elif cmd == 'f':
                 pprint(book.get_all_favorite_numbers())
 
+if __name__ == "__main__":
+    run_app()
 
-    # adv_print('с чего начинается вывод. По умолчанию пустая строка;', "stroka2", start='--', max_line=20,in_file = "out_file.txt")
+    adv_print('с чего начинается вывод. По умолчанию пустая строка;', "stroka2", start='--', max_line=20,in_file = "out_file.txt")
